@@ -21,12 +21,9 @@ public class PlayerCamera : MonoBehaviour {
     // Update is called once per frame
     void Update()
     {
-        if (player.GetComponent<Player>().playerCanMove)
-        {
-            //TODO move the camera position up
-            transform.position = player.GetComponent<Transform>().position;
-            CameraRotation();
-        }
+        //TODO move the camera position up
+        transform.position = player.GetComponent<Transform>().position;
+        CameraRotation();
 
     }
 
