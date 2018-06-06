@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class PlayerInteractor : MonoBehaviour {
 
+    public GameObject camera;
+
 	// Use this for initialization
 	void Start () {
 		
@@ -11,7 +13,7 @@ public class PlayerInteractor : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		
+        Interact();
 	}
 
     void Interact()
@@ -19,14 +21,20 @@ public class PlayerInteractor : MonoBehaviour {
         if(Input.GetMouseButton(0))
         {
             RaycastHit hit;
-            bool objectWasHit = Physics.Raycast(transform.position, transform.forward, out hit, 2f);
+            bool objectWasHit = Physics.Raycast(transform.position, camera.transform.forward, out hit, 2f);
 
-            GameObject Block = hit.transform.gameObject;
-
-            if(Block.GetComponent<BlockType>() != null)
+            if(objectWasHit == true)
             {
-                Block.GetComponent<BlockType>().DestroyBlock();
+                GameObject Block = hit.transform.gameObject;
+
+                if (Block.GetComponent<BlockType>() != null)
+                {
+                    Block.GetComponent<BlockType>().OnPlayerLeftClick();
+                }
             }
+            
+
+            
 
         }
     }

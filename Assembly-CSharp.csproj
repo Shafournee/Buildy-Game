@@ -59,7 +59,8 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Assets\Scripts\BlockType.cs" />
+    <Compile Include="Assets\Scripts\Block Scripts\BlockType.cs" />
+    <Compile Include="Assets\Scripts\Block Scripts\StoneBlock.cs" />
     <Compile Include="Assets\Scripts\PlayerCamera.cs" />
     <Compile Include="Assets\Scripts\PlayerController.cs" />
     <Compile Include="Assets\Scripts\PlayerInteractor.cs" />

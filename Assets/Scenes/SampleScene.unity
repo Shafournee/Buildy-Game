@@ -291,8 +291,9 @@ GameObject:
   - component: {fileID: 1405638804}
   - component: {fileID: 1405638803}
   - component: {fileID: 1405638807}
+  - component: {fileID: 1405638808}
   m_Layer: 0
-  m_Name: Cube (1)
+  m_Name: Stone
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -325,7 +326,9 @@ MeshRenderer:
   m_ReflectionProbeUsage: 1
   m_RenderingLayerMask: 4294967295
   m_Materials:
-  - {fileID: 10303, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: 026cef3715136cf4d939afc72cb4c8dc, type: 2}
+  - {fileID: 0}
+  - {fileID: 0}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -376,6 +379,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 322807e6d5314a44ebf88eaf87db76bf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  destroyLimit: 200
+--- !u!114 &1405638808
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1405638802}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3673426a9f151aa43b8a84aec239dea1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  destroyLimit: 500
 --- !u!1 &1607939531
 GameObject:
   m_ObjectHideFlags: 0
@@ -473,6 +489,7 @@ GameObject:
   - component: {fileID: 1633514092}
   - component: {fileID: 1633514091}
   - component: {fileID: 1633514095}
+  - component: {fileID: 1633514089}
   - component: {fileID: 1633514090}
   m_Layer: 2
   m_Name: Player
@@ -481,6 +498,18 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!114 &1633514089
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1633514088}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dfe626b326a155a488861b284cb5a767, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  camera: {fileID: 282840810}
 --- !u!65 &1633514090
 BoxCollider:
   m_ObjectHideFlags: 0
