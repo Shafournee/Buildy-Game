@@ -5,14 +5,18 @@ using UnityEngine;
 public class BlockType : MonoBehaviour {
 
     // This is what the current progress in being destroyed is
-    protected int destroyCounter = 0;
+    protected float destroyCounter = 0f;
 
-    // This is the limit that tells you how much the block needs to be hit to be destroyed
-    public int destroyLimit = 200;
+    // This is the limit that tells you how much the block needs to be hit to be destroyed in seconds
+    public float destroyLimit = 2f;
+
+    MeshRenderer mesh;
+    Material[] materials = new Material[3];
 
 	// Use this for initialization
 	protected virtual void Start () {
         StartCoroutine(destroyCounterCheck());
+        mesh = GetComponent<MeshRenderer>();
 	}
 	
 	// Update is called once per frame
@@ -24,7 +28,8 @@ public class BlockType : MonoBehaviour {
     // May need to take into account tool types to see how much you destroy it each tick?
     public virtual void OnPlayerLeftClick()
     {
-        destroyCounter++;
+        destroyCounter += Time.deltaTime;
+        print(destroyCounter);
     }
 
     // This is what destroys the block when you keep clicking on it
@@ -42,7 +47,7 @@ public class BlockType : MonoBehaviour {
     {
         while(true)
         {
-            int counterLastFrame = destroyCounter;
+            float counterLastFrame = destroyCounter;
             yield return null;
 
             if(counterLastFrame == destroyCounter)
