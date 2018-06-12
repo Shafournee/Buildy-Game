@@ -13,7 +13,11 @@ public class PlayerInteractor : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-        Interact();
+        if(GetComponent<PlayerController>().playerCanMove)
+        {
+            Interact();
+        }
+        
 	}
 
     void Interact()

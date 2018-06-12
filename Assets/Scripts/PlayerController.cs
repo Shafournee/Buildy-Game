@@ -21,6 +21,7 @@ public class PlayerController : MonoBehaviour {
 
     Vector3 moveDirection;
     Vector3 movement;
+    public bool playerCanMove = true;
 
     public GameObject camera;
 
@@ -32,10 +33,21 @@ public class PlayerController : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-        // Call the movement function
-        Movement();
-        // Rotate this relative to the camera
-        transform.rotation = Quaternion.Euler(0f, camera.GetComponent<PlayerCamera>().yaw, 0f);
+        if(playerCanMove)
+        {
+            // Call the movement function
+            Movement();
+            // Rotate this relative to the camera
+            transform.rotation = Quaternion.Euler(0f, camera.GetComponent<PlayerCamera>().yaw, 0f);
+            Cursor.lockState = CursorLockMode.Locked;
+            Cursor.visible = false;
+        }
+        else
+        {
+            Cursor.lockState = CursorLockMode.None;
+            Cursor.visible = true;
+        }
+
 
     }
 

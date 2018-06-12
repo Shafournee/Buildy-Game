@@ -63,11 +63,13 @@
     <Compile Include="Assets\Scripts\Block Scripts\ItemDrop.cs" />
     <Compile Include="Assets\Scripts\Block Scripts\ItemDropVisual.cs" />
     <Compile Include="Assets\Scripts\Block Scripts\StoneBlock.cs" />
-    <Compile Include="Assets\Scripts\Items.cs" />
+    <Compile Include="Assets\Scripts\ItemPickup.cs" />
     <Compile Include="Assets\Scripts\PlayerCamera.cs" />
     <Compile Include="Assets\Scripts\PlayerController.cs" />
     <Compile Include="Assets\Scripts\PlayerInteractor.cs" />
     <Compile Include="Assets\Scripts\PlayerInventory.cs" />
+    <Compile Include="Assets\Scripts\UI\PlayerInventoryBar.cs" />
+    <Compile Include="Assets\Scripts\UI\PlayerInventoryUI.cs" />
     <Reference Include="Unity.ProBuilder.AddOns.Editor">
       <HintPath>E:/Unity Projects/Buildy-Game/Library/ScriptAssemblies/Unity.ProBuilder.AddOns.Editor.dll</HintPath>
     </Reference>

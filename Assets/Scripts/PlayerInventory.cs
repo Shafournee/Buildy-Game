@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class PlayerInventory : MonoBehaviour {
 
+    public ItemPickups[] itemsStored = new ItemPickups[36];
+
 	// Use this for initialization
 	void Start () {
 		
