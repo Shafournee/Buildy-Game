@@ -21,7 +21,7 @@ public class PlayerCamera : MonoBehaviour {
     // Update is called once per frame
     void Update()
     {
-        //TODO move the camera position up
+        // TODO move the camera position up
         transform.position = player.GetComponent<Transform>().position;
         CameraRotation();
 
@@ -29,6 +29,7 @@ public class PlayerCamera : MonoBehaviour {
 
     void CameraRotation()
     {
+        // Limit the rotation for the camera
         if (pitch >= 90)
         {
             pitch = 90;
@@ -37,6 +38,8 @@ public class PlayerCamera : MonoBehaviour {
         {
             pitch = -90;
         }
+
+        // Rotate the camera
         yaw += horizontalSpeed * Input.GetAxis("Mouse X");
         pitch -= verticalSpeed * Input.GetAxis("Mouse Y");
         transform.eulerAngles = new Vector3(pitch, yaw, 0);

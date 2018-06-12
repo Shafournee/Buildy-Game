@@ -10,17 +10,18 @@ public class BlockType : MonoBehaviour {
     // This is the limit that tells you how much the block needs to be hit to be destroyed in seconds
     public float destroyLimit = 2f;
 
-    MeshRenderer mesh;
-    Material[] materials = new Material[3];
+    //This is what the block drops when destroyed
+    public GameObject dropBlock;
 
 	// Use this for initialization
 	protected virtual void Start () {
+        // This adds counters that will destroy the block
         StartCoroutine(destroyCounterCheck());
-        mesh = GetComponent<MeshRenderer>();
 	}
 	
 	// Update is called once per frame
 	protected virtual void Update () {
+        // This checks if the block should be destroyed yet
         Destroyer();
 	}
 
@@ -32,11 +33,12 @@ public class BlockType : MonoBehaviour {
         print(destroyCounter);
     }
 
-    // This is what destroys the block when you keep clicking on it
+    // This is what destroys the block when you keep holding click on it
     protected virtual void Destroyer()
     {
         if(destroyCounter >= destroyLimit)
         {
+            Instantiate(dropBlock, transform.GetComponent<Renderer>().bounds.center, transform.rotation);
             Destroy(gameObject);
         }
     }

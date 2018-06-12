@@ -334,3 +334,9 @@ E:\Unity Projects\Buildy-Game\obj\Debug\Assembly-CSharp.csproj.CoreCompileInputs
 E:\Unity Projects\Buildy-Game\obj\Debug\Assembly-CSharp.csproj.CopyComplete
 E:\Unity Projects\Buildy-Game\obj\Debug\Assembly-CSharp.dll
 E:\Unity Projects\Buildy-Game\obj\Debug\Assembly-CSharp.pdb
+E:\Unity Projects\Buildy-Game\Temp\bin\Debug\KdTreeLib.dll
+E:\Unity Projects\Buildy-Game\Temp\bin\Debug\pb_Stl.dll
+E:\Unity Projects\Buildy-Game\Temp\bin\Debug\Poly2Tri.dll
+E:\Unity Projects\Buildy-Game\Temp\bin\Debug\ProBuilderCore.dll
+E:\Unity Projects\Buildy-Game\Temp\bin\Debug\ProBuilderMeshOps.dll
+E:\Unity Projects\Buildy-Game\Temp\bin\Debug\Unity.ProBuilder.AddOns.Editor.dll

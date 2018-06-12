@@ -18,11 +18,13 @@ public class PlayerInteractor : MonoBehaviour {
 
     void Interact()
     {
+        //If you're pressing the mouse down raycast
         if(Input.GetMouseButton(0))
         {
             RaycastHit hit;
             bool objectWasHit = Physics.Raycast(transform.position, camera.transform.forward, out hit, 2f);
 
+            // If an object was hit, check if it has the block script, and if so call the left click function
             if(objectWasHit == true)
             {
                 GameObject Block = hit.transform.gameObject;

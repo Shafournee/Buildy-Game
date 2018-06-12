@@ -14,7 +14,7 @@ public class PlayerController : MonoBehaviour {
 
     CharacterController controller;
 
-    //variables
+    // variables
     [SerializeField] float speed;
     [SerializeField] float jumpSpeed;
     [SerializeField] float gravity;
@@ -32,8 +32,9 @@ public class PlayerController : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
+        // Call the movement function
         Movement();
-        //JumpMovement();
+        // Rotate this relative to the camera
         transform.rotation = Quaternion.Euler(0f, camera.GetComponent<PlayerCamera>().yaw, 0f);
 
     }
