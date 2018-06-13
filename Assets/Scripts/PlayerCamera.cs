@@ -22,8 +22,12 @@ public class PlayerCamera : MonoBehaviour {
     void Update()
     {
         // TODO move the camera position up
+        if(player.GetComponent<PlayerController>().playerCanMove)
+        {
+            CameraRotation();
+        }
         transform.position = player.GetComponent<Transform>().position;
-        CameraRotation();
+
 
     }
 

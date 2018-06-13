@@ -7,6 +7,8 @@ public class PlayerInventoryBar : MonoBehaviour {
 
     GameObject[] barSlots = new GameObject[9];
 
+    GameObject lastBarSlotSelected;
+
     GameObject lastSelect;
 
 	// Use this for initialization
@@ -15,12 +17,23 @@ public class PlayerInventoryBar : MonoBehaviour {
         for(int i = 0; i < 9; i++)
         {
             barSlots[i] = transform.GetChild(i).gameObject;
-            lastSelect = new GameObject();
+            
         }
-	}
+        if (lastBarSlotSelected == null)
+        {
+            EventSystem.current.SetSelectedGameObject(barSlots[0]);
+        }
+        else
+        {
+            EventSystem.current.SetSelectedGameObject(lastBarSlotSelected);
+        }
+        lastSelect = new GameObject();
+    }
 	
 	// Update is called once per frame
 	void Update () {
+
+        lastBarSlotSelected = EventSystem.current.currentSelectedGameObject;
 
         if (EventSystem.current.currentSelectedGameObject == null)
         {
@@ -31,6 +44,13 @@ public class PlayerInventoryBar : MonoBehaviour {
             lastSelect = EventSystem.current.currentSelectedGameObject;
         }
 
+        changeInventorySlotWithNumberKey();
+        changeInventorySlotWithScrollWheel();
+    }
+
+    void changeInventorySlotWithNumberKey()
+    {
+        // Change the selected slot to the corresponding number key
         if (Input.GetKeyDown(KeyCode.Alpha1))
         {
             EventSystem.current.SetSelectedGameObject(barSlots[0]);
@@ -66,6 +86,50 @@ public class PlayerInventoryBar : MonoBehaviour {
         if (Input.GetKeyDown(KeyCode.Alpha9))
         {
             EventSystem.current.SetSelectedGameObject(barSlots[8]);
+        }
+    }
+
+    void changeInventorySlotWithScrollWheel()
+    {
+        // If you scroll up, check if you're at the last slot. If so, set it to one. Else, find which slot you are and set it to
+        // One plus of your current slot
+        if(Input.GetAxis("Mouse ScrollWheel") > 0)
+        {
+            if(EventSystem.current.currentSelectedGameObject == barSlots[8])
+            {
+                EventSystem.current.SetSelectedGameObject(barSlots[0]);
+            }
+            else
+            {
+                for (int i = 0; i < 8; i++)
+                {
+                    if (EventSystem.current.currentSelectedGameObject == barSlots[i])
+                    {
+                        EventSystem.current.SetSelectedGameObject(barSlots[i + 1]);
+                        break;
+                    }
+                }
+            }
+        }
+
+        if (Input.GetAxis("Mouse ScrollWheel") < 0)
+        {
+            if(EventSystem.current.currentSelectedGameObject == barSlots[0])
+            {
+                EventSystem.current.SetSelectedGameObject(barSlots[8]);
+            }
+            else
+            {
+                for (int i = 1; i < 9; i++)
+                {
+                    if (EventSystem.current.currentSelectedGameObject == barSlots[i])
+                    {
+                        EventSystem.current.SetSelectedGameObject(barSlots[i - 1]);
+                        break;
+                    }
+                }
+            }
+            
         }
     }
 }

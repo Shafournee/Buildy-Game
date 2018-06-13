@@ -35,8 +35,6 @@ public class PlayerController : MonoBehaviour {
 	void Update () {
         if(playerCanMove)
         {
-            // Call the movement function
-            Movement();
             // Rotate this relative to the camera
             transform.rotation = Quaternion.Euler(0f, camera.GetComponent<PlayerCamera>().yaw, 0f);
             Cursor.lockState = CursorLockMode.Locked;
@@ -47,7 +45,8 @@ public class PlayerController : MonoBehaviour {
             Cursor.lockState = CursorLockMode.None;
             Cursor.visible = true;
         }
-
+        // Call the movement function
+        Movement();
 
     }
 
@@ -55,69 +54,89 @@ public class PlayerController : MonoBehaviour {
     {
         if (controller.isGrounded)
         {
-            moveDirection = new Vector3(0f, 0f, 0f);
+            if (playerCanMove)
+            {
+                moveDirection = new Vector3(0f, 0f, 0f);
 
-            // forwards + backwards
-            if (Input.GetKey(up))
-            {
-                moveDirection += transform.forward;
+                // forwards + backwards
+                if (Input.GetKey(up))
+                {
+                    moveDirection += transform.forward;
+                }
+                else if (Input.GetKey(down))
+                {
+                    moveDirection += -transform.forward;
+                }
+
+                // right + left
+                if (Input.GetKey(right))
+                {
+                    moveDirection += transform.right;
+                }
+                else if (Input.GetKey(left))
+                {
+                    moveDirection += -transform.right;
+                }
+                // Finish the vector
+                movement = speed * moveDirection;
+                // Jumping
+                if (Input.GetKeyDown(KeyCode.Space) && controller.isGrounded)
+                {
+                    movement.y = jumpSpeed;
+                }
             }
-            else if (Input.GetKey(down))
+            else
             {
-                moveDirection += -transform.forward;
+                movement.x = 0;
+                movement.z = 0;
             }
 
-            // right + left
-            if (Input.GetKey(right))
-            {
-                moveDirection += transform.right;
-            }
-            else if (Input.GetKey(left))
-            {
-                moveDirection += -transform.right;
-            }
 
-            // Finish the vector
-            movement = speed * moveDirection;
-
-            // Jumping
-            if (Input.GetKeyDown(KeyCode.Space) && controller.isGrounded)
-            {
-                movement.y = jumpSpeed;
-            }
+            
         }
 
         else
         {
-            moveDirection = new Vector3(0f, movement.y, 0f);
+            if(playerCanMove)
+            {
+                moveDirection = new Vector3(0f, movement.y, 0f);
 
-            // forwards + backwards
-            if (Input.GetKey(up))
-            {
-                moveDirection += transform.forward;
+                // forwards + backwards
+                if (Input.GetKey(up))
+                {
+                    moveDirection += transform.forward;
+                }
+                else if (Input.GetKey(down))
+                {
+                    moveDirection += -transform.forward;
+                }
+
+                // right + left
+                if (Input.GetKey(right))
+                {
+                    moveDirection += transform.right;
+                }
+                else if (Input.GetKey(left))
+                {
+                    moveDirection += -transform.right;
+                }
+                // Finish the vector
+                movement.x = speed * moveDirection.x;
+                movement.z = speed * moveDirection.z;
             }
-            else if (Input.GetKey(down))
+            else
             {
-                moveDirection += -transform.forward;
+                movement.x = 0;
+                movement.z = 0;
             }
 
-            // right + left
-            if (Input.GetKey(right))
-            {
-                moveDirection += transform.right;
-            }
-            else if (Input.GetKey(left))
-            {
-                moveDirection += -transform.right;
-            }
 
-            // Finish the vector
-            movement.x = speed * moveDirection.x;
-            movement.z = speed * moveDirection.z;
         }
 
         // applying movement
         movement.y -= gravity * Time.deltaTime;
         controller.Move(movement * Time.deltaTime);
     }
+
+    
 }

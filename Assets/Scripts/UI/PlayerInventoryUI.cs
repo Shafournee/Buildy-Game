@@ -24,14 +24,12 @@ public class PlayerInventoryUI : MonoBehaviour {
             {
                 inventory.SetActive(true);
                 player.GetComponent<PlayerController>().playerCanMove = false;
-                camera.GetComponent<PlayerCamera>().enabled = false;
                 itemBar.SetActive(false);
             }
             else
             {
                 inventory.SetActive(false);
                 player.GetComponent<PlayerController>().playerCanMove = true;
-                camera.GetComponent<PlayerCamera>().enabled = true;
                 itemBar.SetActive(true);
             }
             inventoryDisplay = !inventoryDisplay;
