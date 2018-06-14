@@ -63,6 +63,7 @@
     <Compile Include="Assets\Scripts\Block Scripts\ItemDrop.cs" />
     <Compile Include="Assets\Scripts\Block Scripts\ItemDropVisual.cs" />
     <Compile Include="Assets\Scripts\Block Scripts\StoneBlock.cs" />
+    <Compile Include="Assets\Scripts\Block Scripts\WoodBlock.cs" />
     <Compile Include="Assets\Scripts\ItemPickup.cs" />
     <Compile Include="Assets\Scripts\PlayerCamera.cs" />
     <Compile Include="Assets\Scripts\PlayerController.cs" />

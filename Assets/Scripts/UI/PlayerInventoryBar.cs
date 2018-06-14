@@ -154,12 +154,20 @@ public class PlayerInventoryBar : MonoBehaviour {
             {
                 // If the item is not stored there, make sure the image is disabled
                 barSlots[i].GetComponentsInChildren<Image>(true)[1].gameObject.SetActive(false);
+                // If there's no stored item, don't display text either
+                barSlots[i].GetComponentsInChildren<RectTransform>(true)[2].gameObject.SetActive(false);
             }
             else
             {
                 // If the item is stored there, enable the image and set the sprite to it
                 barSlots[i].GetComponentsInChildren<Image>(true)[1].gameObject.SetActive(true);
                 barSlots[i].GetComponentsInChildren<Image>(true)[1].sprite = player.GetComponent<PlayerInventoryManager>().itemsStored[i].storedSprite;
+                // Set the text too, if the stack amount is more than 1
+                if (player.GetComponent<PlayerInventoryManager>().itemsStored[i].stackAmount > 1)
+                {
+                    barSlots[i].GetComponentsInChildren<RectTransform>(true)[2].gameObject.SetActive(true);
+                    barSlots[i].GetComponentsInChildren<RectTransform>(true)[2].gameObject.GetComponent<Text>().text = player.GetComponent<PlayerInventoryManager>().itemsStored[i].stackAmount.ToString();
+                }
             }
         }
     }

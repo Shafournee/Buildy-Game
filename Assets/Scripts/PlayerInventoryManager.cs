@@ -45,14 +45,24 @@ public class PlayerInventoryManager : MonoBehaviour {
                 {
                     emptySpot = i;
                 }
-                // If the item in the slot is the same as the pickup and it's not at a full stack, add another to the stack
-                if (itemsStored[i] == pickup && itemsStored[i].stackAmount != 99)
+                // Ignore empty slots from this point on
+                else if (itemsStored[i] == null)
                 {
-                    itemsStored[i].stackAmount++;
+
+                }
+                // If the item in the slot is the same as the pickup and it's not at a full stack, add another to the stack
+                else if (itemsStored[i].path == pickup.path && itemsStored[i].stackAmount + pickup.stackAmount <= 99)
+                {
+                    itemsStored[i].stackAmount += pickup.stackAmount;
+                    emptySpot = -1;
                     break;
                 }
             }
-            itemsStored[emptySpot] = pickup;
+            if(emptySpot != -1)
+            {
+                itemsStored[emptySpot] = pickup;
+            }
+
         }
         else
         {

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public enum PickupPath { Stone }
+public enum PickupPath { Stone, Wood }
 
 public enum IsStackable { Stackable, UnStackable };
 
