@@ -67,9 +67,10 @@
     <Compile Include="Assets\Scripts\PlayerCamera.cs" />
     <Compile Include="Assets\Scripts\PlayerController.cs" />
     <Compile Include="Assets\Scripts\PlayerInteractor.cs" />
-    <Compile Include="Assets\Scripts\PlayerInventory.cs" />
+    <Compile Include="Assets\Scripts\PlayerInventoryManager.cs" />
     <Compile Include="Assets\Scripts\UI\PlayerInventoryBar.cs" />
     <Compile Include="Assets\Scripts\UI\PlayerInventoryUI.cs" />
+    <Compile Include="Assets\Unity Scripts\AltStandaloneInputModule.cs" />
     <Reference Include="Unity.ProBuilder.AddOns.Editor">
       <HintPath>E:/Unity Projects/Buildy-Game/Library/ScriptAssemblies/Unity.ProBuilder.AddOns.Editor.dll</HintPath>
     </Reference>

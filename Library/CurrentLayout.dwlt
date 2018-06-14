@@ -340,19 +340,19 @@ MonoBehaviour:
     m_ShowAllHits: 0
     m_SearchArea: 0
     m_Folders:
-    - Assets/Scripts/UI
+    - Assets/Prefabs/Block Drops
   m_ViewMode: 1
   m_StartGridSize: 64
   m_LastFolders:
-  - Assets/Scripts/UI
+  - Assets/Prefabs/Block Drops
   m_LastFoldersGridSize: -1
   m_LastProjectPath: E:\Unity Projects\Buildy-Game
   m_LockTracker:
     m_IsLocked: 0
   m_FolderTreeState:
     scrollPos: {x: 0, y: 0}
-    m_SelectedIDs: d60b0000
-    m_LastClickedID: 3030
+    m_SelectedIDs: 400d0000
+    m_LastClickedID: 3392
     m_ExpandedIDs: 0000000072090000f00a0000120d000000ca9a3bffffff7f
     m_RenameOverlay:
       m_UserAcceptedRename: 0
@@ -406,8 +406,8 @@ MonoBehaviour:
       m_Icon: {fileID: 0}
       m_ResourceFile: 
   m_ListAreaState:
-    m_SelectedInstanceIDs: b6080000
-    m_LastClickedInstanceID: 2230
+    m_SelectedInstanceIDs: 1288f9ff348bf9ff108ff9ff3e92f9ffb295f9ff5098f9ff109cf9ff449ff9ff6caff9ff
+    m_LastClickedInstanceID: -423918
     m_HadKeyboardFocusLastEvent: 1
     m_ExpandedInstanceIDs: c6230000f6240000702c00000e27000006280000fc34000012270000d63300001c280000fc27000092340000223c0000183500003e280000222a0000503500000c29000072280000b22a000094270000325700001e2b0000503700000000000074060000
     m_RenameOverlay:
@@ -497,23 +497,23 @@ MonoBehaviour:
   m_PersistentViewDataDictionary: {fileID: 0}
   m_TreeViewState:
     scrollPos: {x: 0, y: 0}
-    m_SelectedIDs: e20e0000
-    m_LastClickedID: 3810
-    m_ExpandedIDs: ecfbffff000000008c10000098100000
+    m_SelectedIDs: 8c100000
+    m_LastClickedID: 4236
+    m_ExpandedIDs: dcfbffffecfbffff00000000560f0000e60f00008c10000098100000
     m_RenameOverlay:
       m_UserAcceptedRename: 0
-      m_Name: 
-      m_OriginalName: 
+      m_Name: Button
+      m_OriginalName: Button
       m_EditFieldRect:
         serializedVersion: 2
         x: 0
         y: 0
         width: 0
         height: 0
-      m_UserData: 0
+      m_UserData: 4060
       m_IsWaitingForDelay: 0
       m_IsRenaming: 0
-      m_OriginalEventType: 11
+      m_OriginalEventType: 0
       m_IsRenamingFilename: 0
       m_ClientGUIView: {fileID: 4}
     m_SearchString: 
@@ -549,14 +549,14 @@ MonoBehaviour:
     height: 575
   m_PersistentViewDataDictionary: {fileID: 0}
   m_SceneLighting: 1
-  lastFramingTime: 98.30207740845746
+  lastFramingTime: 10714.872054589603
   m_2DMode: 0
   m_isRotationLocked: 0
   m_AudioPlay: 0
   m_Position:
-    m_Target: {x: 1.4396143, y: -1.343405, z: 12.462125}
+    m_Target: {x: 350.2129, y: 192.0108, z: -131.88208}
     speed: 2
-    m_Value: {x: 1.4396143, y: -1.343405, z: 12.462125}
+    m_Value: {x: 350.2129, y: 192.0108, z: -131.88208}
   m_RenderMode: 0
   m_CameraMode:
     drawMode: 0
@@ -584,13 +584,13 @@ MonoBehaviour:
       speed: 2
       m_Value: 0
   m_Rotation:
-    m_Target: {x: -0.15867993, y: 0.014187132, z: -0.0022830083, w: -0.9872255}
+    m_Target: {x: -0.17644936, y: 0.0023350816, z: -0.00042059782, w: -0.98430693}
     speed: 2
-    m_Value: {x: -0.15867995, y: 0.014187133, z: -0.0022830085, w: -0.98722553}
+    m_Value: {x: -0.17644936, y: 0.0023350816, z: -0.00042059782, w: -0.98430693}
   m_Size:
-    m_Target: 19.045475
+    m_Target: 176.59137
     speed: 2
-    m_Value: 19.045475
+    m_Value: 176.59137
   m_Ortho:
     m_Target: 0
     speed: 2

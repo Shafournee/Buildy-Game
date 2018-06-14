@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.UI;
 
 public class PlayerInventoryBar : MonoBehaviour {
 
@@ -10,6 +11,8 @@ public class PlayerInventoryBar : MonoBehaviour {
     GameObject lastBarSlotSelected;
 
     GameObject lastSelect;
+
+    [SerializeField] GameObject player;
 
 	// Use this for initialization
 	void Start () {
@@ -32,6 +35,8 @@ public class PlayerInventoryBar : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
+
+
 
         lastBarSlotSelected = EventSystem.current.currentSelectedGameObject;
 
@@ -129,7 +134,41 @@ public class PlayerInventoryBar : MonoBehaviour {
                     }
                 }
             }
+
+
             
         }
+    }
+
+    public void DisplayMenuBar()
+    {
+        StartCoroutine(UpdateSelectedMenuBarSlot());
+
+    }
+
+    public void DisplayMenuItems()
+    {
+        for (int i = 0; i < barSlots.Length; i++)
+        {
+            if (player.GetComponent<PlayerInventoryManager>().itemsStored[i] == null)
+            {
+                // If the item is not stored there, make sure the image is disabled
+                barSlots[i].GetComponentsInChildren<Image>(true)[1].gameObject.SetActive(false);
+            }
+            else
+            {
+                // If the item is stored there, enable the image and set the sprite to it
+                barSlots[i].GetComponentsInChildren<Image>(true)[1].gameObject.SetActive(true);
+                barSlots[i].GetComponentsInChildren<Image>(true)[1].sprite = player.GetComponent<PlayerInventoryManager>().itemsStored[i].storedSprite;
+            }
+        }
+    }
+
+    IEnumerator UpdateSelectedMenuBarSlot()
+    {
+        EventSystem.current.SetSelectedGameObject(null);
+        yield return null;
+        EventSystem.current.SetSelectedGameObject(lastSelect);
+        DisplayMenuItems();
     }
 }

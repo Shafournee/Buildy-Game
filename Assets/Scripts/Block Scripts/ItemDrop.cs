@@ -7,7 +7,8 @@ public class ItemDrop : MonoBehaviour {
 
     // Use this for initialization
     void Start () {
-        
+        //Set the pickup radius to 4
+        GetComponent<SphereCollider>().radius = 4f;
 	}
 	
 	// Update is called once per frame
@@ -25,6 +26,19 @@ public class ItemDrop : MonoBehaviour {
             GetComponentInChildren<ItemDropVisual>().startPosition = transform.position;
         }
 
+    }
+
+    private void OnTriggerEnter(Collider collider)
+    {
+        if (collider.GetComponent<PlayerInventoryManager>() != null)
+        {
+            // Check if the inventory is full. If it isn't, destroy the game object, and store it in the open slot
+            if(!collider.GetComponent<PlayerInventoryManager>().IsInventoryFull())
+            {
+                collider.GetComponent<PlayerInventoryManager>().AddItemToInventory(GetComponent<ItemPickup>().newPickup);
+                Destroy(gameObject);
+            }
+        }
     }
 
 }
