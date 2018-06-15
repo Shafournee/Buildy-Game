@@ -16,6 +16,9 @@ public class PlayerInventoryUI : MonoBehaviour {
     [SerializeField] GameObject itemDraggedByMouse;
 
     [SerializeField] GameObject[] ItemDisplay;
+
+    bool itemIsBeingDragged = false;
+
     // Use this for initialization
     void Start () {
         inventory.SetActive(false);
@@ -33,7 +36,7 @@ public class PlayerInventoryUI : MonoBehaviour {
         {
             itemDraggedByMouse.transform.position = Input.mousePosition;
         }
-
+        PickupItemInInventory();
     }
 
     void ToggleTheInventoryScreen()
@@ -105,6 +108,13 @@ public class PlayerInventoryUI : MonoBehaviour {
 
     void PickupItemInInventory()
     {
-
+        if(!itemIsBeingDragged)
+        {
+            if(Input.GetMouseButtonDown(0))
+            {
+                GameObject selectedInventorySlot;
+                selectedInventorySlot = EventSystem.current.currentSelectedGameObject;
+            }
+        }
     }
 }
