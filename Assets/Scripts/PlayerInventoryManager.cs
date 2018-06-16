@@ -6,6 +6,8 @@ public class PlayerInventoryManager : MonoBehaviour {
 
     public ItemPickups[] itemsStored = new ItemPickups[36];
     GameObject canvas;
+    public ItemPickups temporaryItemStored;
+    public ItemPickups swappingStorage;
 
     // Use this for initialization
     void Start () {
