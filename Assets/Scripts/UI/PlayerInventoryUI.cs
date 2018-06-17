@@ -223,10 +223,28 @@ public class PlayerInventoryUI : MonoBehaviour {
                 // TODO, Figure out how to get right clicking working. Look into Graphic Raycasts
                 GameObject selectedInventorySlot;
                 selectedInventorySlot = EventSystem.current.currentSelectedGameObject;
-                if(selectedInventorySlot == null)
+                PointerEventData cursor = new PointerEventData(EventSystem.current);
+                cursor.position = Input.mousePosition;
+                List<RaycastResult> objectsHit = new List<RaycastResult>();
+                EventSystem.current.RaycastAll(cursor, objectsHit);
+                if(objectsHit.Count == 0)
                 {
-                    //This will handle dropping items onto the ground
+                    // If there are no objects in the list, that means that the list is empty, and they didn't select any game objects.
+                    // In this case objects should be dropped on the ground
                     return;
+                }
+                for(int i = 0; i < objectsHit.Count; i++)
+                {
+                    //If it's an inventory button set it to the object we want to select and break out of the loop
+                    if(objectsHit[i].gameObject.GetComponent<Button>())
+                    {
+                        selectedInventorySlot = objectsHit[i].gameObject;
+                        break;
+                    }
+                    else
+                    {
+
+                    }
                 }
                 // Find the index of the slot that the inventory and store it to access the same slot in the item manager
                 for (int i = 0; i < ItemDisplay.Length; i++)
