@@ -146,6 +146,11 @@ public class PlayerInventoryUI : MonoBehaviour {
 
     void MoveItemsInInventory()
     {
+        if (inventoryScript.temporaryItemStored != null && inventoryScript.temporaryItemStored.stackAmount <= 0)
+        {
+            inventoryScript.temporaryItemStored = null;
+            UpdateTheUI();
+        }
         // Left click behavior if the inventory is active
         if (inventory.activeInHierarchy && Input.GetMouseButtonDown(0))
         {
@@ -188,13 +193,19 @@ public class PlayerInventoryUI : MonoBehaviour {
             }
 
             // If the two items are the same, just add all the items you can to it, until it's at the stack amount
-            else if (inventoryScript.temporaryItemStored != null && inventoryScript.temporaryItemStored == inventoryScript.itemsStored[slotIndex])
+            else if (inventoryScript.temporaryItemStored != null && inventoryScript.temporaryItemStored.path == inventoryScript.itemsStored[slotIndex].path)
             {
-                if(inventoryScript.temporaryItemStored.stackAmount + inventoryScript.itemsStored[slotIndex].stackAmount <= 99)
+                if (inventoryScript.temporaryItemStored.stackAmount + inventoryScript.itemsStored[slotIndex].stackAmount <= 99)
                 {
                     inventoryScript.itemsStored[slotIndex].stackAmount += inventoryScript.temporaryItemStored.stackAmount;
+                    inventoryScript.temporaryItemStored.stackAmount = 0;
                 }
                 // Figure how to add the amount that gets the stored stack to 99, but not past that, and sets the temp stack to the right amount
+                if (inventoryScript.temporaryItemStored.stackAmount + inventoryScript.itemsStored[slotIndex].stackAmount > 99)
+                {
+                    inventoryScript.temporaryItemStored.stackAmount = 99 - inventoryScript.temporaryItemStored.stackAmount;
+                    inventoryScript.itemsStored[slotIndex].stackAmount = 99;
+                }
             }
 
             // This function swaps two items
@@ -216,54 +227,56 @@ public class PlayerInventoryUI : MonoBehaviour {
         // How to handle right clicking
         else if(inventory.activeInHierarchy && Input.GetMouseButtonDown(1))
         {
-            // TODO, make right clicking a stack of items split them in half, and right clicking a single item just pick it up
-            // Right click should only have behavior if you're holding something
-            if(inventoryScript.temporaryItemStored != null)
-            {
-                // TODO, Figure out how to get right clicking working. Look into Graphic Raycasts
-                GameObject selectedInventorySlot;
-                selectedInventorySlot = EventSystem.current.currentSelectedGameObject;
-                PointerEventData cursor = new PointerEventData(EventSystem.current);
-                cursor.position = Input.mousePosition;
-                List<RaycastResult> objectsHit = new List<RaycastResult>();
-                EventSystem.current.RaycastAll(cursor, objectsHit);
-                if(objectsHit.Count == 0)
-                {
-                    // If there are no objects in the list, that means that the list is empty, and they didn't select any game objects.
-                    // In this case objects should be dropped on the ground
-                    return;
-                }
-                for(int i = 0; i < objectsHit.Count; i++)
-                {
-                    //If it's an inventory button set it to the object we want to select and break out of the loop
-                    if(objectsHit[i].gameObject.GetComponent<Button>())
-                    {
-                        selectedInventorySlot = objectsHit[i].gameObject;
-                        break;
-                    }
-                    else
-                    {
+            // ----------------- RIGHT CLICK HANDLER --------------------------//
+            GameObject selectedInventorySlot;
+            selectedInventorySlot = EventSystem.current.currentSelectedGameObject;
+            PointerEventData cursor = new PointerEventData(EventSystem.current);
+            cursor.position = Input.mousePosition;
+            List<RaycastResult> objectsHit = new List<RaycastResult>();
+            EventSystem.current.RaycastAll(cursor, objectsHit);
+            // ----------------- RIGHT CLICK HANDLER --------------------------//
 
-                    }
-                }
-                // Find the index of the slot that the inventory and store it to access the same slot in the item manager
-                for (int i = 0; i < ItemDisplay.Length; i++)
+            // ------------------------ FINDING THE INVENTORY SLOT --------------//
+
+            if (objectsHit.Count == 0)
+            {
+                // If there are no objects in the list, that means that the list is empty, and they didn't select any game objects.
+                // In this case objects should be dropped on the ground
+                return;
+            }
+            for (int i = 0; i < objectsHit.Count; i++)
+            {
+                //If it's an inventory button set it to the object we want to select and break out of the loop
+                if (objectsHit[i].gameObject.GetComponent<Button>())
                 {
-                    if (ItemDisplay[i] == selectedInventorySlot)
-                    {
-                        slotIndex = i;
-                        break;
-                    }
+                    selectedInventorySlot = objectsHit[i].gameObject;
+                    break;
                 }
+            }
+            // Find the index of the slot that the inventory and store it to access the same slot in the item manager
+            for (int i = 0; i < ItemDisplay.Length; i++)
+            {
+                if (ItemDisplay[i] == selectedInventorySlot)
+                {
+                    slotIndex = i;
+                    break;
+                }
+            }
+
+            // ------------------------FINDING THE INVENTORY SLOT--------------//
+
+            // Right click should only have behavior if you're holding something
+            if (inventoryScript.temporaryItemStored != null)
+            {
                 // If the inventory slot is empty, place only one of the objects into that slot
                 if(inventoryScript.itemsStored[slotIndex] == null)
                 {
                     // Remove one from the item you're holding
                     inventoryScript.temporaryItemStored.stackAmount--;
-                    inventoryScript.itemsStored[slotIndex] = inventoryScript.temporaryItemStored;
+                    inventoryScript.itemsStored[slotIndex] = CloneAnItemPickup(inventoryScript.temporaryItemStored);
                     inventoryScript.itemsStored[slotIndex].stackAmount = 1;
                 }
-                else if(inventoryScript.itemsStored[slotIndex] == inventoryScript.temporaryItemStored)
+                else if(inventoryScript.itemsStored[slotIndex].path == inventoryScript.temporaryItemStored.path)
                 {
                     inventoryScript.itemsStored[slotIndex].stackAmount++;
                     inventoryScript.temporaryItemStored.stackAmount--;
@@ -273,9 +286,39 @@ public class PlayerInventoryUI : MonoBehaviour {
                 {
                     inventoryScript.temporaryItemStored = null;
                 }
-                UpdateTheUI();
+                
             }
+            // If you right click on a slot with an item, while you're not holding an item
+            else if (inventoryScript.temporaryItemStored == null && selectedInventorySlot != null)
+            {
+                ItemPickups createdItem = CloneAnItemPickup(inventoryScript.itemsStored[slotIndex]);
+                // If it evenly divides by zero, just cut the amount in half
+                if (inventoryScript.itemsStored[slotIndex].stackAmount % 2 == 0)
+                {
+                    inventoryScript.itemsStored[slotIndex].stackAmount = inventoryScript.itemsStored[slotIndex].stackAmount / 2;
+                    inventoryScript.temporaryItemStored = createdItem;
+                    inventoryScript.temporaryItemStored.stackAmount = inventoryScript.itemsStored[slotIndex].stackAmount;
+                }
+                else
+                {
+                    inventoryScript.itemsStored[slotIndex].stackAmount = inventoryScript.itemsStored[slotIndex].stackAmount / 2;
+                    inventoryScript.temporaryItemStored = createdItem;
+                    inventoryScript.temporaryItemStored.stackAmount = inventoryScript.itemsStored[slotIndex].stackAmount;
+                    inventoryScript.itemsStored[slotIndex].stackAmount++;
+                }
+            }
+            UpdateTheUI();
         }
     }
 
+    ItemPickups CloneAnItemPickup(ItemPickups insertedItem)
+    {
+        ItemPickups clone = new ItemPickups();
+        clone.storedSprite = insertedItem.storedSprite;
+        clone.path = insertedItem.path;
+        clone.isStackable = insertedItem.isStackable;
+        clone.stackAmount = 1;
+
+        return clone;
+    }
 }
