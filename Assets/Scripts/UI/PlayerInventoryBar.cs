@@ -14,6 +14,8 @@ public class PlayerInventoryBar : MonoBehaviour {
 
     [SerializeField] GameObject player;
 
+    KeyCode drop = KeyCode.Q;
+
 	// Use this for initialization
 	void Start () {
         // Get each bar slot from the object
@@ -31,11 +33,16 @@ public class PlayerInventoryBar : MonoBehaviour {
             EventSystem.current.SetSelectedGameObject(lastBarSlotSelected);
         }
         lastSelect = new GameObject();
+
     }
 	
 	// Update is called once per frame
 	void Update () {
 
+        if (Input.GetKeyDown(drop))
+        {
+            DropMenuBarItems();
+        }
 
 
         lastBarSlotSelected = EventSystem.current.currentSelectedGameObject;
@@ -168,8 +175,42 @@ public class PlayerInventoryBar : MonoBehaviour {
                     barSlots[i].GetComponentsInChildren<RectTransform>(true)[2].gameObject.SetActive(true);
                     barSlots[i].GetComponentsInChildren<RectTransform>(true)[2].gameObject.GetComponent<Text>().text = player.GetComponent<PlayerInventoryManager>().itemsStored[i].stackAmount.ToString();
                 }
+                else
+                {
+                    barSlots[i].GetComponentsInChildren<RectTransform>(true)[2].gameObject.SetActive(false);
+                    barSlots[i].GetComponentsInChildren<RectTransform>(true)[2].gameObject.GetComponent<Text>().text = "";
+                }
             }
         }
+    }
+
+    public void DropMenuBarItems()
+    {
+        int index = -1;
+        for (int i = 0; i < barSlots.Length; i++)
+        {
+            if (barSlots[i] == EventSystem.current.currentSelectedGameObject)
+            {
+                index = i;
+                break;
+            }
+        }
+        if(index != -1)
+        {
+            ItemPickups dropper = player.GetComponent<PlayerInventoryManager>().itemsStored[index];
+            if (player.GetComponent<PlayerInventoryManager>().itemsStored[index] != null && player.GetComponent<PlayerInventoryManager>().itemsStored[index].stackAmount > 0)
+            {
+                player.GetComponent<PlayerInventoryManager>().itemsStored[index].stackAmount--;
+                player.GetComponent<PlayerInteractor>().ItemDropper(dropper, 1);
+                if(player.GetComponent<PlayerInventoryManager>().itemsStored[index].stackAmount == 0)
+                {
+                    player.GetComponent<PlayerInventoryManager>().itemsStored[index] = null;
+                }
+            }
+            DisplayMenuItems();
+        }
+
+
     }
 
     IEnumerator UpdateSelectedMenuBarSlot()

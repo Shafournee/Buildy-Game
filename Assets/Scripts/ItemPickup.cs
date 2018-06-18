@@ -25,15 +25,16 @@ public class ItemPickup : MonoBehaviour {
     public Sprite inventorySprite;
     public PickupPath itemPickupPath;
     public IsStackable stackablity;
+    public int stackCount;
 
     // Use this for initialization
-    void Start () {
-
+    void Awake () {
+        stackCount = 1;
         newPickup = new ItemPickups();
         newPickup.storedSprite = inventorySprite;
         newPickup.path = itemPickupPath;
         newPickup.isStackable = stackablity;
-        newPickup.stackAmount = 1;
+        newPickup.stackAmount = stackCount;
 
         if(stackablity == IsStackable.Stackable)
         {
@@ -49,4 +50,5 @@ public class ItemPickup : MonoBehaviour {
 	void Update () {
 		
 	}
+
 }

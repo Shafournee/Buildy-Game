@@ -38,6 +38,8 @@ public class PlayerInventoryUI : MonoBehaviour {
         MoveItemsInInventory();
     }
 
+    // ------------------------ DISPLAY THE INVENTORY UI, HIDE THE ITEM BAR ------------------------------ //
+
     void ToggleTheInventoryScreen()
     {
         if (Input.GetKeyDown(inventoryKey))
@@ -75,10 +77,23 @@ public class PlayerInventoryUI : MonoBehaviour {
                     itemDraggedByMouse.GetComponent<Image>().sprite = null;
                     itemDraggedByMouse.SetActive(false);
                 }
+                else if (inventoryScript.temporaryItemStored != null)
+                {
+                    player.GetComponent<PlayerInteractor>().ItemDropper(inventoryScript.temporaryItemStored, inventoryScript.temporaryItemStored.stackAmount);
+                    inventoryScript.temporaryItemStored = null;
+                    itemDraggedByMouse.GetComponent<Image>().sprite = null;
+                    itemDraggedByMouse.SetActive(false);
+                }
             }
             inventoryDisplay = !inventoryDisplay;
         }
     }
+
+    // ------------------------ DISPLAY THE INVENTORY UI, HIDE THE ITEM BAR ------------------------------ //
+
+
+
+    // ------------------------- DRAW THE PROPER SPRITES INTO EACH ITEM SLOT ---------------------------- //
 
     void DisplayTheInventory()
     {
@@ -138,6 +153,13 @@ public class PlayerInventoryUI : MonoBehaviour {
         }
     }
 
+
+    // ------------------------- DRAW THE PROPER SPRITES INTO EACH ITEM SLOT ---------------------------- //
+
+
+
+
+
     public void UpdateTheUI()
     {
         DisplayTheInventory();
@@ -146,6 +168,7 @@ public class PlayerInventoryUI : MonoBehaviour {
 
     void MoveItemsInInventory()
     {
+        // If the stack you're holding ever reaches 0, set it to null
         if (inventoryScript.temporaryItemStored != null && inventoryScript.temporaryItemStored.stackAmount <= 0)
         {
             inventoryScript.temporaryItemStored = null;
@@ -155,12 +178,12 @@ public class PlayerInventoryUI : MonoBehaviour {
         if (inventory.activeInHierarchy && Input.GetMouseButtonDown(0))
         {
             GameObject selectedInventorySlot;
+            selectedInventorySlot = EventSystem.current.currentSelectedGameObject;
             // If we don't select a game object and we aren't dragging anything break out of this function
             if (EventSystem.current.currentSelectedGameObject == null && inventoryScript.temporaryItemStored == null)
             {
                 return;
             }
-            selectedInventorySlot = EventSystem.current.currentSelectedGameObject;
             // Find the index of the slot that the inventory and store it to access the same slot in the item manager
             for (int i = 0; i < ItemDisplay.Length; i++)
             {
@@ -170,18 +193,25 @@ public class PlayerInventoryUI : MonoBehaviour {
                     break;
                 }
             }
+      
+            // If the player left clicks off the inventory, drop all of the items
+            if(selectedInventorySlot == null && inventoryScript.temporaryItemStored != null)
+            {
+                player.GetComponent<PlayerInteractor>().ItemDropper(inventoryScript.temporaryItemStored, inventoryScript.temporaryItemStored.stackAmount);
+                inventoryScript.temporaryItemStored = null;
+            }
             // If the slot index hasn't changed break out of this function, because they aren't selecting an inventory slot
-            if (slotIndex == -1)
+            else if (slotIndex == -1)
             {
                 return;
             }
             // Only trigger this if you aren't carrying an item, and the space you're selecting has an item
             else if (inventoryScript.temporaryItemStored == null && inventoryScript.itemsStored[slotIndex] != null)
             {
+                print(inventoryScript.itemsStored[slotIndex].stackAmount);
                 // Set your currently dragged item to your mouses dragging item, and put the item into temporary storage
                 inventoryScript.temporaryItemStored = inventoryScript.itemsStored[slotIndex];
                 inventoryScript.itemsStored[slotIndex] = null;
-
             }
 
             // This puts items into empty places
@@ -221,28 +251,41 @@ public class PlayerInventoryUI : MonoBehaviour {
                 inventoryScript.swappingStorage = null;
             }
             // No matter what happens, update the UI
+
             UpdateTheUI();
         }
 
         // How to handle right clicking
         else if(inventory.activeInHierarchy && Input.GetMouseButtonDown(1))
         {
-            // ----------------- RIGHT CLICK HANDLER --------------------------//
+            // ----------------- RIGHT CLICK HANDLER -------------------------- //
             GameObject selectedInventorySlot;
             selectedInventorySlot = EventSystem.current.currentSelectedGameObject;
             PointerEventData cursor = new PointerEventData(EventSystem.current);
             cursor.position = Input.mousePosition;
             List<RaycastResult> objectsHit = new List<RaycastResult>();
             EventSystem.current.RaycastAll(cursor, objectsHit);
-            // ----------------- RIGHT CLICK HANDLER --------------------------//
+            // ----------------- RIGHT CLICK HANDLER -------------------------- //
 
-            // ------------------------ FINDING THE INVENTORY SLOT --------------//
+            // ------------------------ FINDING THE INVENTORY SLOT -------------- //
+
+            print(objectsHit.Count);
 
             if (objectsHit.Count == 0)
             {
                 // If there are no objects in the list, that means that the list is empty, and they didn't select any game objects.
                 // In this case objects should be dropped on the ground
-                return;
+                if (inventoryScript.temporaryItemStored != null)
+                {
+                    player.GetComponent<PlayerInteractor>().ItemDropper(inventoryScript.temporaryItemStored, 1);
+                    inventoryScript.temporaryItemStored.stackAmount--;
+                    UpdateTheUI();
+                    return;
+                }
+                else
+                {
+                    return;
+                }
             }
             for (int i = 0; i < objectsHit.Count; i++)
             {
@@ -263,7 +306,7 @@ public class PlayerInventoryUI : MonoBehaviour {
                 }
             }
 
-            // ------------------------FINDING THE INVENTORY SLOT--------------//
+            // ------------------------FINDING THE INVENTORY SLOT-------------- //
 
             // Right click should only have behavior if you're holding something
             if (inventoryScript.temporaryItemStored != null)
@@ -289,7 +332,7 @@ public class PlayerInventoryUI : MonoBehaviour {
                 
             }
             // If you right click on a slot with an item, while you're not holding an item
-            else if (inventoryScript.temporaryItemStored == null && selectedInventorySlot != null)
+            else if (inventoryScript.temporaryItemStored == null && inventoryScript.itemsStored[slotIndex] != null)
             {
                 ItemPickups createdItem = CloneAnItemPickup(inventoryScript.itemsStored[slotIndex]);
                 // If it evenly divides by zero, just cut the amount in half
@@ -304,7 +347,7 @@ public class PlayerInventoryUI : MonoBehaviour {
                     inventoryScript.itemsStored[slotIndex].stackAmount = inventoryScript.itemsStored[slotIndex].stackAmount / 2;
                     inventoryScript.temporaryItemStored = createdItem;
                     inventoryScript.temporaryItemStored.stackAmount = inventoryScript.itemsStored[slotIndex].stackAmount;
-                    inventoryScript.itemsStored[slotIndex].stackAmount++;
+                    inventoryScript.temporaryItemStored.stackAmount++;
                 }
             }
             UpdateTheUI();

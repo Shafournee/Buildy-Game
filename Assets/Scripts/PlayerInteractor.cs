@@ -44,4 +44,11 @@ public class PlayerInteractor : MonoBehaviour {
 
         }
     }
+
+    public void ItemDropper(ItemPickups drop, int dropAmount)
+    {
+        GameObject droppedItem = Instantiate(Resources.Load("ItemDropPrefabs/" + drop.path + "Pickup", typeof(GameObject))) as GameObject;
+        droppedItem.GetComponent<ItemPickup>().newPickup.stackAmount = dropAmount;
+        droppedItem.transform.position = transform.position + transform.forward * 3f;
+    }
 }

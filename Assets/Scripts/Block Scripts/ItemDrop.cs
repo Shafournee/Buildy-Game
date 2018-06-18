@@ -14,7 +14,7 @@ public class ItemDrop : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 
-        if(!Physics.Raycast(transform.position, Vector3.down, .15f))
+        if(!Physics.Raycast(transform.position, Vector3.down, .15f, 9))
         {
             transform.Translate(Vector3.down * Time.deltaTime * 2f);
             GetComponentInChildren<ItemDropVisual>().onGround = false;
