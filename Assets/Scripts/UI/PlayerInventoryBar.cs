@@ -8,11 +8,11 @@ public class PlayerInventoryBar : MonoBehaviour {
 
     GameObject[] barSlots = new GameObject[9];
 
-    GameObject lastBarSlotSelected;
-
     GameObject lastSelect;
 
     [SerializeField] GameObject player;
+
+    int index;
 
     KeyCode drop = KeyCode.Q;
 
@@ -24,14 +24,8 @@ public class PlayerInventoryBar : MonoBehaviour {
             barSlots[i] = transform.GetChild(i).gameObject;
             
         }
-        if (lastBarSlotSelected == null)
-        {
-            EventSystem.current.SetSelectedGameObject(barSlots[0]);
-        }
-        else
-        {
-            EventSystem.current.SetSelectedGameObject(lastBarSlotSelected);
-        }
+        // Set your selected object to the first bar slot
+        EventSystem.current.SetSelectedGameObject(barSlots[0]);
         lastSelect = new GameObject();
 
     }
@@ -39,13 +33,13 @@ public class PlayerInventoryBar : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 
+        //This keeps track of which slot you're selecting to find the item you'll be using easier
+        int index = System.Array.IndexOf(barSlots, EventSystem.current.currentSelectedGameObject);
+
         if (Input.GetKeyDown(drop))
         {
             DropMenuBarItems();
         }
-
-
-        lastBarSlotSelected = EventSystem.current.currentSelectedGameObject;
 
         if (EventSystem.current.currentSelectedGameObject == null)
         {
@@ -186,15 +180,6 @@ public class PlayerInventoryBar : MonoBehaviour {
 
     public void DropMenuBarItems()
     {
-        int index = -1;
-        for (int i = 0; i < barSlots.Length; i++)
-        {
-            if (barSlots[i] == EventSystem.current.currentSelectedGameObject)
-            {
-                index = i;
-                break;
-            }
-        }
         if(index != -1)
         {
             ItemPickups dropper = player.GetComponent<PlayerInventoryManager>().itemsStored[index];
@@ -209,7 +194,6 @@ public class PlayerInventoryBar : MonoBehaviour {
             }
             DisplayMenuItems();
         }
-
 
     }
 

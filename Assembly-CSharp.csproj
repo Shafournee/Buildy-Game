@@ -69,9 +69,14 @@
     <Compile Include="Assets\Scripts\PlayerController.cs" />
     <Compile Include="Assets\Scripts\PlayerInteractor.cs" />
     <Compile Include="Assets\Scripts\PlayerInventoryManager.cs" />
+    <Compile Include="Assets\Scripts\Test\GenerateCube.cs" />
+    <Compile Include="Assets\Scripts\Test\GenerateCubeEditor.cs" />
     <Compile Include="Assets\Scripts\UI\PlayerInventoryBar.cs" />
     <Compile Include="Assets\Scripts\UI\PlayerInventoryUI.cs" />
-    <Compile Include="Assets\Unity Scripts\AltStandaloneInputModule.cs" />
+    <Compile Include="Assets\Scripts\Unity Scripts\AltStandaloneInputModule.cs" />
+    <Compile Include="Assets\Scripts\World Generator\BlockInfo.cs" />
+    <Compile Include="Assets\Scripts\World Generator\Chunk.cs" />
+    <Compile Include="Assets\Scripts\World Generator\ChunkGenerator.cs" />
     <Reference Include="Unity.ProBuilder.AddOns.Editor">
       <HintPath>E:/Unity Projects/Buildy-Game/Library/ScriptAssemblies/Unity.ProBuilder.AddOns.Editor.dll</HintPath>
     </Reference>

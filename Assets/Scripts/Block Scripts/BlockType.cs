@@ -16,7 +16,7 @@ public class BlockType : MonoBehaviour {
 	// Use this for initialization
 	protected virtual void Start () {
         // This adds counters that will destroy the block
-        StartCoroutine(destroyCounterCheck());
+        //StartCoroutine(destroyCounterCheck());
 	}
 	
 	// Update is called once per frame
@@ -44,18 +44,18 @@ public class BlockType : MonoBehaviour {
     }
 
 
-    // This is what resets the timer on destroying the block
-    protected virtual IEnumerator destroyCounterCheck()
-    {
-        while(true)
-        {
-            float counterLastFrame = destroyCounter;
-            yield return null;
+    //// This is what resets the timer on destroying the block
+    //protected virtual IEnumerator destroyCounterCheck()
+    //{
+    //    while (true)
+    //    {
+    //        float counterLastFrame = destroyCounter;
+    //        yield return null;
 
-            if(counterLastFrame == destroyCounter)
-            {
-                destroyCounter = 0;
-            }
-        }
-    }
+    //        if (counterLastFrame == destroyCounter)
+    //        {
+    //            destroyCounter = 0;
+    //        }
+    //    }
+    //}
 }
